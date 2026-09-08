@@ -94,8 +94,144 @@ export interface SocietalChallenge {
   assigned_project_id?: string;
 }
 
-// Initial 5 Realistic Flagship Active Projects
+// Initial 5 Realistic Flagship Active Projects + Demo Journey Project
 export const INITIAL_PROJECTS: ActiveProject[] = [
+  {
+    id: "proj-river",
+    title: "Subarnarekha River Effluent Real-Time Monitoring Network",
+    challengeId: "jh-ch-08",
+    challengeTitle: "Industrial Acid Effluent Real-Time Sensor Alert on Subarnarekha River",
+    problemStatement:
+      "Unregulated discharge of industrial metal plating effluents into the Subarnarekha River is killing aquatic life and contaminating irrigation water for 1,200 farming families in Tupudana and Namkum blocks. Fish mortality events increased 3x in the past year. pH levels drop to 3.2–4.8 (normal: 6.5–8.5). Chromium levels exceed safe limits by 8x.",
+    category: "Water & Sanitation",
+    district: "Ranchi",
+    university: "IIT (ISM) Dhanbad",
+    universityId: "univ-iit-dhanbad",
+    progress: 78,
+    status: "ONGOING",
+    startDate: "2026-06-15",
+    expectedCompletionDate: "2026-12-31",
+    team: [
+      {
+        id: "tm-r1",
+        name: "Arjun Nayak",
+        branch: "Chemical Engineering",
+        university: "IIT (ISM) Dhanbad",
+        role: "Lead Sensor Chemist",
+      },
+      {
+        id: "tm-r2",
+        name: "Divya Shekhar",
+        branch: "Electronics & Communication",
+        university: "IIT (ISM) Dhanbad",
+        role: "IoT Network Architect",
+      },
+      {
+        id: "tm-r3",
+        name: "Prakash Murmu",
+        branch: "Computer Science",
+        university: "IIT (ISM) Dhanbad",
+        role: "Data Pipeline & Dashboard",
+      },
+      {
+        id: "tm-r4",
+        name: "Sunita Oraon",
+        branch: "Environmental Engineering",
+        university: "IIT (ISM) Dhanbad",
+        role: "Field Environmental Researcher",
+      },
+      {
+        id: "tm-r5",
+        name: "Rahul Birua",
+        branch: "Civil Engineering",
+        university: "IIT (ISM) Dhanbad",
+        role: "Field Deployment Lead",
+      },
+    ],
+    mentor: {
+      id: "men-river",
+      name: "Dr. Priya Bhattacharya",
+      title: "Associate Professor",
+      department: "Department of Environmental Science & Engineering",
+      university: "IIT (ISM) Dhanbad",
+      specialization: "River Pollution Monitoring & Electrochemical Sensors",
+      email: "pbhattacharya@iitism.ac.in",
+    },
+    industryPartner: {
+      id: "ind-river",
+      name: "Tata Steel CSR Foundation",
+      sector: "Metallurgy & Environmental Responsibility",
+      supportType: ["FUNDING", "TECHNOLOGY", "TESTING", "MENTORSHIP"],
+      fundingPledged: "₹5,80,000",
+      contactPerson: "Dr. Vivek Chhabra (VP, CSR & Sustainability)",
+      contactEmail: "csr.environment@tatasteel.com",
+    },
+    description:
+      "Deploying 60 solar-powered multi-parameter electrochemical sensor nodes along 18 km of the Subarnarekha River bank. Each node measures pH, dissolved oxygen, chromium, lead, and turbidity in real-time over LoRaWAN, feeding a live dashboard accessible to the Jharkhand State Pollution Control Board for automated regulatory alerts.",
+    currentMilestone: "60 sensor nodes deployed and transmitting live on Subarnarekha riverbanks",
+    nextMilestone: "Regulatory handover to JSPCB + Deployment certification and public dashboard launch",
+    milestones: [
+      {
+        id: "mr-1",
+        title: "Electrochemical Sensor Array Fabrication",
+        description: "Built and NABL-calibrated 60 multi-parameter sensor nodes. pH, Cr, Pb, DO sensors validated against standard solutions.",
+        status: "COMPLETED",
+        dueDate: "2026-07-30",
+      },
+      {
+        id: "mr-2",
+        title: "LoRaWAN Gateway Setup & Data Pipeline",
+        description: "Installed 6 gateway nodes and built real-time data ingestion pipeline to cloud dashboard with JSPCB API integration.",
+        status: "COMPLETED",
+        dueDate: "2026-08-20",
+      },
+      {
+        id: "mr-3",
+        title: "Field Deployment — 60 Nodes on 18 km Riverbank",
+        description: "All sensor buoys deployed at 300m intervals from Tupudana discharge point to Namkum agricultural zone.",
+        status: "COMPLETED",
+        dueDate: "2026-09-01",
+      },
+      {
+        id: "mr-4",
+        title: "Field Testing & Validation (Live Data)",
+        description: "Ongoing real-time monitoring. 3 illegal discharge events already flagged and reported to JSPCB enforcement team.",
+        status: "IN_PROGRESS",
+        dueDate: "2026-11-30",
+      },
+      {
+        id: "mr-5",
+        title: "Regulatory Handover & Deployment Certification",
+        description: "Full system handover to JSPCB, public dashboard launch, and official deployment press release.",
+        status: "PENDING",
+        dueDate: "2026-12-31",
+      },
+    ],
+    recentUpdates: [
+      {
+        id: "ur-1",
+        date: "2026-09-06",
+        author: "Arjun Nayak",
+        title: "3 illegal discharge events detected and reported",
+        content: "Automated pH drop alerts (pH 3.8) triggered at 02:14 AM on Sept 4 — JSPCB enforcement visited the site within 4 hours. This is the first use of the system for live regulatory action.",
+      },
+      {
+        id: "ur-2",
+        date: "2026-08-28",
+        author: "Dr. Priya Bhattacharya",
+        title: "All 60 nodes transmitting — Tata Steel CSR review completed",
+        content: "Industry mentor Dr. Vivek Chhabra conducted a field review. Sensor accuracy validated at 97.4%. Tata Steel confirmed full funding tranche released.",
+      },
+      {
+        id: "ur-3",
+        date: "2026-08-15",
+        author: "Rahul Birua",
+        title: "Field deployment completed 2 weeks ahead of schedule",
+        content: "All sensor buoys anchored along riverbank. Solar panels and LoRaWAN antennas tested. Data flowing to cloud dashboard live.",
+      },
+    ],
+  },
+
   {
     id: "proj-01",
     title: "Smart Water Quality Monitoring System",
@@ -776,14 +912,16 @@ export const INITIAL_CHALLENGES: SocietalChallenge[] = [
       "Unregulated discharge of industrial metal plating effluents into the Subarnarekha River kills aquatic life and affects downstream farming in Tupudana and Namkum. Real-time water probe monitoring is required.",
     category: "Water & Sanitation",
     district: "Ranchi",
-    status: "RECOMMENDED",
+    status: "IN_PROGRESS",
     ai_domain: "Environmental Sensing & Geo-Telemetry",
     ai_priority: "Critical",
     ai_severity: 9,
     ai_skills_required: ["Chemical Electro-sensors", "Water Quality Analytics", "LoRaWAN"],
-    funding_needed: "₹3,90,000",
+    funding_needed: "₹5,80,000",
     reported_by: "Subarnarekha Bachao Samiti",
     created_at: "2026-08-30T17:00:00Z",
+    assigned_university: "IIT (ISM) Dhanbad",
+    assigned_project_id: "proj-river",
   },
 ];
 

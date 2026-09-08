@@ -37,6 +37,11 @@ import { useAuth } from "@/components/auth-provider";
 
 export default function IndustryDashboard() {
   const { profile } = useAuth();
+  const isIndRole = profile?.role === "INDUSTRY";
+  const orgName = isIndRole && profile?.organization_name
+    ? profile.organization_name
+    : "Tata Steel CSR Foundation";
+
   const [projects, setProjects] = useState<ActiveProject[]>([]);
   const [challenges, setChallenges] = useState<SocietalChallenge[]>([]);
   const [activeTab, setActiveTab] = useState<"supported" | "recommended" | "mentorship" | "analytics">("supported");
@@ -48,13 +53,23 @@ export default function IndustryDashboard() {
   const [supportTypes, setSupportTypes] = useState<string[]>(["FUNDING"]);
   const [pledgedAmount, setPledgedAmount] = useState("₹4,50,000");
   const [supportNote, setSupportNote] = useState("");
-  const [contactName, setContactName] = useState(profile?.full_name || "Dr. Vivek Chhabra");
-  const [contactEmail, setContactEmail] = useState(profile?.email || "csr.projects@tatasteel.com");
+  const [contactName, setContactName] = useState(isIndRole && profile?.full_name ? profile.full_name : "Dr. Vivek Chhabra");
+  const [contactEmail, setContactEmail] = useState(isIndRole && profile?.email ? profile.email : "csr.projects@tatasteel.com");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setProjects(getStoredProjects());
     setChallenges(getStoredChallenges());
+
+    const handleHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (["supported", "recommended", "mentorship", "analytics"].includes(hash)) {
+        setActiveTab(hash as any);
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
   const showToast = (msg: string) => {
@@ -87,7 +102,7 @@ export default function IndustryDashboard() {
 
     const partner: IndustryPartner = {
       id: `ind-${Date.now()}`,
-      name: profile?.organization_name || "Tata Steel CSR Foundation",
+      name: orgName,
       sector: "Metallurgy, Energy & Community Infrastructure",
       supportType: supportTypes as any,
       fundingPledged: pledgedAmount,
@@ -146,7 +161,7 @@ export default function IndustryDashboard() {
                 <span className="text-xs text-slate-400">ID: IND-JH-2026</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
-                {profile?.organization_name || "Tata Steel CSR Foundation"}
+                {orgName}
               </h1>
               <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-2xl">
                 Partnering with Jharkhand Universities and student innovators to fund, mentor, and deploy sustainable societal technology at scale.
@@ -329,14 +344,14 @@ export default function IndustryDashboard() {
                 {/* Support provided tags */}
                 <div className="flex flex-wrap items-center gap-1.5 pt-1">
                   <span className="text-xs text-slate-500 mr-1">Provided:</span>
-                  {project.industryPartner?.supportType.map((st) => (
+                  {Array.isArray(project.industryPartner?.supportType) ? project.industryPartner.supportType.map((st) => (
                     <span
                       key={st}
                       className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                     >
                       {st}
                     </span>
-                  ))}
+                  )) : null}
                 </div>
 
                 {/* Current Milestone */}

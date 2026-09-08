@@ -662,7 +662,6 @@ export default function ExplorePage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3, delay: Math.min(idx * 0.05, 0.3) }}
-                  onClick={() => setActiveModalChallenge(challenge)}
                   className="group relative flex flex-col justify-between bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-6 cursor-pointer overflow-hidden"
                 >
                   {/* Priority Strip Top */}
@@ -760,9 +759,9 @@ export default function ExplorePage() {
                         <Users className="w-3.5 h-3.5 text-blue-500" />
                         {challenge.teams_count} {challenge.teams_count === 1 ? "team" : "teams"}
                       </span>
-                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+                      <Link href={`/challenges/${challenge.id}`} className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
                         Details <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
+                      </Link>
                     </div>
                   </div>
                 </motion.div>
@@ -867,26 +866,17 @@ export default function ExplorePage() {
 
                 {/* Call to Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-                  {activeModalChallenge.status === "IN_PROGRESS" || activeModalChallenge.status === "ACCEPTED" ? (
-                    <Link
-                      href="/projects"
-                      className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
-                    >
-                      View Active Project & Student Team &rarr;
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/dashboard/university"
-                      className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
-                    >
-                      Adopt as University Project
-                    </Link>
-                  )}
                   <Link
-                    href="/dashboard/industry"
+                    href={`/challenges/${activeModalChallenge.id}`}
+                    className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
+                  >
+                    View Full Challenge Details &rarr;
+                  </Link>
+                  <Link
+                    href={`/challenges/${activeModalChallenge.id}/apply`}
                     className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-white font-bold text-sm text-center transition-all"
                   >
-                    Pledge Industry / CSR Funding
+                    Solve This Challenge
                   </Link>
                 </div>
               </div>

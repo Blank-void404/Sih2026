@@ -6,8 +6,8 @@ export default function DashboardLayout({
   children: ReactNode;
 }) {
   return (
-    <section className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="w-full flex flex-col flex-1">
       {children}
-    </section>
+    </div>
   );
 }

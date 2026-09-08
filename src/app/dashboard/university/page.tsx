@@ -40,6 +40,11 @@ import { useAuth } from "@/components/auth-provider";
 
 export default function UniversityDashboard() {
   const { profile } = useAuth();
+  const isUniRole = profile?.role === "UNIVERSITY";
+  const universityName = isUniRole && profile?.organization_name
+    ? profile.organization_name
+    : "Birsa Institute of Technology (BIT) Mesra";
+
   const [projects, setProjects] = useState<ActiveProject[]>([]);
   const [challenges, setChallenges] = useState<SocietalChallenge[]>([]);
   const [activeTab, setActiveTab] = useState<"recommended" | "active" | "teams" | "proposals" | "collaborations">("recommended");
@@ -114,7 +119,7 @@ export default function UniversityDashboard() {
       name: mentorName,
       title: "Professor",
       department: mentorDept,
-      university: profile?.organization_name || "Birsa Institute of Technology (BIT) Mesra",
+      university: universityName,
       specialization: mentorSpec,
       email: mentorEmail,
     };
@@ -152,7 +157,7 @@ export default function UniversityDashboard() {
 
     const newProj = adoptChallengeAsProject(
       selectedChallenge,
-      profile?.organization_name || "Birsa Institute of Technology (BIT) Mesra",
+      universityName,
       mentor,
       team
     );
@@ -218,7 +223,7 @@ export default function UniversityDashboard() {
                 <span className="text-xs text-slate-400">NIRF Ranked #21</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1">
-                {profile?.organization_name || "Birsa Institute of Technology (BIT) Mesra"}
+                {universityName}
               </h1>
               <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-2xl">
                 Jharkhand Societal Innovation Workspace — Mobilizing faculty laboratories and student engineering cohorts to solve state bottlenecks.
@@ -393,12 +398,18 @@ export default function UniversityDashboard() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     onClick={() => handleOpenAdoptModal(ch)}
-                    className="col-span-2 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm"
+                    className="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" /> Accept & Form Team
+                  </button>
+                  <button
+                    onClick={() => handleOpenProposalModal(ch)}
+                    className="py-2 px-3 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-xs font-bold hover:bg-blue-100 transition flex items-center justify-center gap-1"
+                  >
+                    <FileText className="w-3.5 h-3.5" /> Submit Proposal
                   </button>
                   <button
                     onClick={() => handleRejectChallenge(ch.id)}
@@ -649,14 +660,14 @@ export default function UniversityDashboard() {
                   </div>
 
                   <div className="flex flex-wrap gap-1 pt-1">
-                    {p.industryPartner?.supportType.map((st) => (
+                    {Array.isArray(p.industryPartner?.supportType) ? p.industryPartner.supportType.map((st) => (
                       <span
                         key={st}
                         className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300"
                       >
                         {st}
                       </span>
-                    ))}
+                    )) : null}
                   </div>
                 </div>
               ))}
@@ -857,6 +868,92 @@ export default function UniversityDashboard() {
                   >
                     <CheckCircle2 className="w-4 h-4" />
                     Formalize Adoption & Register Active Project
+                  </button>
+                </form>
+              </div>
+            </motion.div>
+          </div>
+        )}
+        {/* Modal 2: Submit Research Proposal */}
+        {isProposalModalOpen && selectedChallenge && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800"
+            >
+              <button
+                onClick={() => setIsProposalModalOpen(false)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="space-y-5">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                    State Innovation Grant Application
+                  </span>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                    Submit Academic Research Proposal
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Target Challenge: <strong className="text-slate-800 dark:text-slate-200">{selectedChallenge.title}</strong>
+                  </p>
+                </div>
+
+                <form onSubmit={handleSubmitProposal} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                      Project Approach Summary
+                    </label>
+                    <textarea
+                      rows={3}
+                      required
+                      value={proposalSummary}
+                      onChange={(e) => setProposalSummary(e.target.value)}
+                      placeholder="Describe methodology, sensor choices, hardware architecture, and planned field trials..."
+                      className="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        Requested Budget
+                      </label>
+                      <input
+                        type="text"
+                        value={proposedBudget}
+                        onChange={(e) => setProposedBudget(e.target.value)}
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-slate-100 font-semibold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                        Proposed Timeline
+                      </label>
+                      <input
+                        type="text"
+                        value={proposedTimeline}
+                        onChange={(e) => setProposedTimeline(e.target.value)}
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-slate-100 font-semibold"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+                    <div className="font-semibold text-blue-900 dark:text-blue-200">Submitting Institution:</div>
+                    <div>{universityName} (Academic Research Wing)</div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5"
+                  >
+                    <Send className="w-4 h-4" />
+                    Submit Proposal to State Innovation Council
                   </button>
                 </form>
               </div>

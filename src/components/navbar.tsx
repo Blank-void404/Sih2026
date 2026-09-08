@@ -170,36 +170,44 @@ export function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setIsDashDropdownOpen(!isDashDropdownOpen)}
-                  onBlur={() => setTimeout(() => setIsDashDropdownOpen(false), 200)}
+                  onBlur={() => setTimeout(() => setIsDashDropdownOpen(false), 250)}
                   className="flex items-center gap-1 px-3.5 py-2 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 hover:bg-[#F2ECE1] transition-colors"
+                  aria-expanded={isDashDropdownOpen}
                 >
                   Dashboards
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                 </button>
 
                 {isDashDropdownOpen && (
-                  <div className="absolute right-0 mt-1 w-56 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div 
+                    onMouseDown={(e) => e.preventDefault()}
+                    className="absolute right-0 mt-1 w-56 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 py-2 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  >
                     <Link
                       href="/dashboard/citizen"
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E]"
+                      onClick={() => setIsDashDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E] transition-colors"
                     >
                       <Users className="w-3.5 h-3.5 text-slate-500" /> Citizen Portal
                     </Link>
                     <Link
                       href="/dashboard/university"
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E]"
+                      onClick={() => setIsDashDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E] transition-colors"
                     >
                       <GraduationCap className="w-3.5 h-3.5 text-slate-500" /> University Portal
                     </Link>
                     <Link
                       href="/dashboard/industry"
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E]"
+                      onClick={() => setIsDashDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E] transition-colors"
                     >
-                      <Building2 className="w-3.5 h-3.5 text-slate-500" /> Industry Partners
+                      <Building2 className="w-3.5 h-3.5 text-slate-500" /> Industrial & CSR Portal
                     </Link>
                     <Link
                       href="/dashboard/admin"
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E]"
+                      onClick={() => setIsDashDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-[#FAF7F2] hover:text-[#D9531E] transition-colors"
                     >
                       <Shield className="w-3.5 h-3.5 text-slate-500" /> State Admin Portal
                     </Link>
