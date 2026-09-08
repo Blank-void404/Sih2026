@@ -867,12 +867,21 @@ export default function ExplorePage() {
 
                 {/* Call to Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-                  <Link
-                    href="/dashboard/university"
-                    className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
-                  >
-                    Adopt as University Capstone Project
-                  </Link>
+                  {activeModalChallenge.status === "IN_PROGRESS" || activeModalChallenge.status === "ACCEPTED" ? (
+                    <Link
+                      href="/projects"
+                      className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
+                    >
+                      View Active Project & Student Team &rarr;
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/dashboard/university"
+                      className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-lg shadow-emerald-600/20 transition-all"
+                    >
+                      Adopt as University Project
+                    </Link>
+                  )}
                   <Link
                     href="/dashboard/industry"
                     className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-white font-bold text-sm text-center transition-all"

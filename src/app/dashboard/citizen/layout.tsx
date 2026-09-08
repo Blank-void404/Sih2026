@@ -27,7 +27,6 @@ export default function CitizenDashboardLayout({
     { name: "Report Challenge", href: "/dashboard/citizen/report", icon: PlusCircle },
   ];
 
-  if (isLoading) return <div className="p-8 text-center">Loading...</div>;
 
   return (
     <div className="flex flex-col md:flex-row gap-8 py-8">

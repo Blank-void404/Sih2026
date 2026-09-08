@@ -46,10 +46,10 @@ export default function Home() {
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            href="/explore"
-            className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-full font-semibold text-lg transition-all shadow-sm flex items-center justify-center"
+            href="/projects"
+            className="w-full sm:w-auto px-8 py-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-full font-semibold text-lg transition-all shadow-sm flex items-center justify-center"
           >
-            Explore Challenges
+            Active Projects (5)
           </Link>
         </motion.div>
       </section>
@@ -57,7 +57,12 @@ export default function Home() {
       {/* Stats Section */}
       <section className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, idx) => (
+          {[
+            { label: "Challenges Reported", value: "1,200+", href: "/explore" },
+            { label: "Active Projects", value: "5 Flagship", href: "/projects" },
+            { label: "Universities Engaged", value: "24", href: "/dashboard/university" },
+            { label: "Industry Partners", value: "45", href: "/dashboard/industry" },
+          ].map((stat, idx) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, scale: 0.9 }}
@@ -66,8 +71,10 @@ export default function Home() {
               transition={{ duration: 0.4, delay: idx * 0.1 }}
               className="text-center"
             >
-              <div className="text-4xl font-bold text-emerald-600 mb-2">{stat.value}</div>
-              <div className="text-sm font-medium text-slate-500 uppercase tracking-wide">{stat.label}</div>
+              <Link href={stat.href} className="group block">
+                <div className="text-4xl font-bold text-emerald-600 mb-2 group-hover:scale-105 transition-transform">{stat.value}</div>
+                <div className="text-sm font-medium text-slate-500 uppercase tracking-wide group-hover:text-emerald-700 transition-colors">{stat.label} &rarr;</div>
+              </Link>
             </motion.div>
           ))}
         </div>

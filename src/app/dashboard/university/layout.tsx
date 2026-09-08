@@ -27,7 +27,6 @@ export default function UniversityDashboardLayout({
     { name: "Teams & Mentors", href: "/dashboard/university/teams", icon: Users },
   ];
 
-  if (isLoading) return <div className="p-8 text-center">Loading...</div>;
 
   return (
     <div className="flex flex-col md:flex-row gap-8 py-8">
